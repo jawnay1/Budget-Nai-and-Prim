@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💑 บัญชีคู่รัก</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1a2744;
+  --navy2: #243358;
+  --navy-light: #3d5a99;
+  --pink: #e8607a;
+  --pink-light: #f5a0b0;
+  --pink-bg: #fff0f3;
+  --blue-bg: #f0f4ff;
+  --green: #1a8c5e;
+  --green-bg: #e8f8f1;
+  --red: #c0392b;
+  --red-bg: #fff0ee;
+  --gold: #d4a017;
+  --gold-bg: #fffbee;
+  --text: #1a2744;
+  --text2: #6b7a99;
+  --border: #e8ecf5;
+  --bg: #f4f6fb;
+  --white: #ffffff;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 2px 16px rgba(26,39,68,0.08);
+  --shadow-lg: 0 8px 40px rgba(26,39,68,0.14);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Sarabun', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* TOP HEADER */
+.header {
+  background: var(--navy);
+  padding: 0;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: var(--shadow-lg);
+}
+.header-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem;
+}
+.logo {
+  font-family: 'Prompt', sans-serif;
+  font-size: 18px; font-weight: 600; color: #fff;
+  padding: 1.1rem 0;
+  display: flex; align-items: center; gap: 10px;
+}
+.logo span { opacity: 0.6; font-weight: 300; font-size: 14px; }
+
+/* PERSON TABS */
+.person-tabs {
+  display: flex; gap: 4px; padding: 0.5rem 0;
+}
+.ptab {
+  padding: 8px 22px; border-radius: 30px; cursor: pointer;
+  font-family: 'Prompt', sans-serif; font-size: 13px; font-weight: 500;
+  border: none; transition: all 0.25s ease;
+  display: flex; align-items: center; gap: 7px;
+}
+.ptab-me { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+.ptab-me.active { background: var(--navy-light); color: #fff; }
+.ptab-gf { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+.ptab-gf.active { background: var(--pink); color: #fff; }
+.ptab-both { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+.ptab-both.active { background: var(--gold); color: #1a2744; }
+.avatar { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+
+/* MONTH BAR */
+.monthbar {
+  background: var(--navy2); padding: 0.5rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 1100px; margin: 0 auto; border-radius: 0 0 12px 12px;
+}
+.month-nav { display: flex; align-items: center; gap: 12px; }
+.mnav-btn { background: rgba(255,255,255,0.1); border: none; color: #fff; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+.mnav-btn:hover { background: rgba(255,255,255,0.2); }
+.month-label { font-family: 'Prompt',sans-serif; font-size: 14px; font-weight: 500; color: #fff; min-width: 130px; text-align: center; }
+.header-stats { display: flex; gap: 20px; }
+.hstat { text-align: right; }
+.hstat-label { font-size: 10px; color: rgba(255,255,255,0.5); }
+.hstat-val { font-size: 13px; font-weight: 600; color: #fff; }
+
+/* MAIN */
+.main { max-width: 1100px; margin: 0 auto; padding: 1.5rem 2rem 3rem; }
+
+/* CARDS */
+.summary-cards { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 1.25rem; }
+.scard {
+  border-radius: var(--radius); padding: 1.2rem 1.3rem;
+  position: relative; overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.scard:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.scard-icon { position: absolute; right: 14px; top: 14px; font-size: 32px; opacity: 0.15; }
+.scard-label { font-size: 11px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 8px; opacity: 0.85; }
+.scard-val { font-family: 'Prompt',sans-serif; font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+.scard-sub { font-size: 11px; opacity: 0.75; }
+.scard-income { background: linear-gradient(135deg,#1a8c5e,#0f6e56); color: #fff; }
+.scard-expense { background: linear-gradient(135deg,#c0392b,#922b21); color: #fff; }
+.scard-save { background: linear-gradient(135deg,#185fa5,#0d4479); color: #fff; }
+.scard-balance { background: linear-gradient(135deg,#1a2744,#243358); color: #fff; }
+.scard-balance.warning { background: linear-gradient(135deg,#922b21,#641e16); }
+
+/* ALERT */
+.alert { padding: 10px 14px; border-radius: var(--radius-sm); font-size: 12px; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; font-weight: 500; }
+.alert-warn { background: #fffbee; color: #854f0b; border-left: 3px solid var(--gold); }
+.alert-good { background: var(--green-bg); color: #0f6e56; border-left: 3px solid var(--green); }
+.alert-danger { background: var(--red-bg); color: var(--red); border-left: 3px solid var(--red); }
+
+/* GRID */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+
+/* PANEL */
+.panel {
+  background: var(--white); border-radius: var(--radius);
+  padding: 1.2rem 1.3rem; box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+.panel-title {
+  font-family: 'Prompt', sans-serif; font-size: 13px; font-weight: 600;
+  color: var(--text2); margin-bottom: 12px;
+  display: flex; align-items: center; gap: 7px;
+  text-transform: uppercase; letter-spacing: 0.4px;
+}
+.panel-title .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* INPUT ROW */
+.input-row { display: grid; grid-template-columns: 1.8fr 1fr 1.2fr 36px; gap: 6px; margin-bottom: 10px; }
+.input-row input, .input-row select {
+  font-family: 'Sarabun', sans-serif; font-size: 12px;
+  padding: 7px 10px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); background: var(--bg);
+  color: var(--text); width: 100%; outline: none;
+  transition: border 0.2s;
+}
+.input-row input:focus, .input-row select:focus { border-color: var(--navy-light); background: #fff; }
+.btn-add {
+  width: 36px; height: 36px; border-radius: var(--radius-sm);
+  border: none; cursor: pointer; font-size: 18px; font-weight: 300;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.btn-add-income { background: var(--green); color: #fff; }
+.btn-add-expense { background: var(--red); color: #fff; }
+.btn-add-save { background: var(--navy-light); color: #fff; }
+.btn-add:hover { opacity: 0.85; transform: scale(1.05); }
+
+/* TABLE */
+.tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+.tbl th { padding: 6px 8px; background: var(--bg); color: var(--text2); font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: 0.3px; text-align: left; }
+.tbl th:last-child, .tbl td:last-child { text-align: right; }
+.tbl td { padding: 7px 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tr:hover td { background: var(--bg); }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 600; }
+.ti { background: var(--green-bg); color: var(--green); }
+.te { background: var(--red-bg); color: var(--red); }
+.ts { background: var(--blue-bg); color: var(--navy-light); }
+.btn-del { background: none; border: none; color: var(--text2); cursor: pointer; font-size: 14px; padding: 2px 5px; border-radius: 6px; transition: all 0.15s; }
+.btn-del:hover { background: var(--red-bg); color: var(--red); }
+.empty-msg { text-align: center; color: var(--text2); padding: 18px; font-size: 12px; }
+
+/* DONUT */
+.donut-wrap { display: flex; align-items: center; gap: 16px; }
+.legend-item { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; font-size: 11px; }
+.ldot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.lval { margin-left: auto; font-weight: 700; font-size: 11px; color: var(--text); }
+
+/* SAVINGS */
+.goal-item { margin-bottom: 12px; }
+.goal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; font-size: 12px; }
+.goal-name { font-weight: 600; color: var(--text); }
+.goal-amt { color: var(--navy-light); font-weight: 700; font-size: 11px; }
+.pbar { height: 7px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+.pbar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+.goal-sub { font-size: 10px; color: var(--text2); margin-top: 3px; }
+
+/* HISTORY */
+.hist-tabs { display: flex; gap: 4px; margin-bottom: 10px; flex-wrap: wrap; }
+.htab { padding: 5px 14px; border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: none; color: var(--text2); transition: all 0.2s; }
+.htab.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+/* COMBINED VIEW */
+.combined-card { background: var(--white); border-radius: var(--radius); padding: 1.4rem; box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 12px; }
+.combined-title { font-family: 'Prompt',sans-serif; font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
+.compare-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.compare-col { padding: 1rem; border-radius: var(--radius-sm); }
+.compare-col.me-col { background: var(--blue-bg); border-left: 3px solid var(--navy-light); }
+.compare-col.gf-col { background: var(--pink-bg); border-left: 3px solid var(--pink); }
+.compare-name { font-weight: 700; font-size: 13px; margin-bottom: 8px; }
+.compare-stat { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
+.compare-stat span:last-child { font-weight: 700; }
+
+/* FOOTER */
+.footer { text-align: center; padding: 1rem; font-size: 11px; color: var(--text2); margin-top: 1rem; }
+
+/* CANVAS */
+canvas { display: block; max-width: 100%; }
+
+/* SECTION DIVIDER */
+.section-label {
+  font-family: 'Prompt', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase; color: var(--text2);
+  margin-bottom: 8px; padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Accent for person */
+.accent-me { color: var(--navy-light); }
+.accent-gf { color: var(--pink); }
+.accent-both { color: var(--gold); }
+
+@media (max-width: 700px) {
+  .summary-cards { grid-template-columns: 1fr 1fr; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .main { padding: 1rem; }
+  .header-stats { display: none; }
+  .input-row { grid-template-columns: 1fr 1fr; }
+  .input-row select { grid-column: 1/-1; }
+  .monthbar { flex-direction: column; gap: 6px; padding: 0.5rem 1rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="logo">💑 บัญชีคู่รัก <span>Personal Finance</span></div>
+    <div class="person-tabs">
+      <button class="ptab ptab-me active" onclick="switchPerson('me')">
+        <div class="avatar" style="background:#3d5a99;color:#fff">👦</div> ของฉัน
+      </button>
+      <button class="ptab ptab-gf" onclick="switchPerson('gf')">
+        <div class="avatar" style="background:#e8607a;color:#fff">👧</div> ของแฟน
+      </button>
+      <button class="ptab ptab-both" onclick="switchPerson('both')">
+        💑 ภาพรวม
+      </button>
+    </div>
+  </div>
+  <div style="max-width:1100px;margin:0 auto;padding:0 2rem;">
+    <div class="monthbar" style="padding:0.5rem 0;">
+      <div class="month-nav">
+        <button class="mnav-btn" onclick="changeMonth(-1)">‹</button>
+        <div class="month-label" id="month-label">พฤษภาคม 2568</div>
+        <button class="mnav-btn" onclick="changeMonth(1)">›</button>
+      </div>
+      <div class="header-stats" id="header-stats"></div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div id="view-me"></div>
+  <div id="view-gf" style="display:none"></div>
+  <div id="view-both" style="display:none"></div>
+</div>
+
+<div class="footer">💑 บัญชีคู่รัก — จัดการการเงินด้วยกัน</div>
+
+<script>
+const MONTHS = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+const MSHORT = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+const EXP_COLORS = ['#1a2744','#3d5a99','#c0392b','#e8607a','#1a8c5e','#d4a017','#185fa5','#888'];
+const fmt = n => Math.round(n).toLocaleString('th-TH');
+
+let curMonth = 4;
+let curPerson = 'me';
+let histFilter = { me: 'all', gf: 'all' };
+
+const persons = {
+  me: {
+    name: 'ของฉัน', emoji: '👦', color: '#3d5a99', bg: '#f0f4ff',
+    income: Array.from({length:12},(_,i)=> i===4?[{n:'เงินเดือน',a:25000,c:'เงินเดือน'},{n:'ฟรีแลนซ์',a:5000,c:'ฟรีแลนซ์'}]:i===0?[{n:'เงินเดือน',a:25000,c:'เงินเดือน'}]:i===2?[{n:'เงินเดือน',a:25000,c:'เงินเดือน'},{n:'โบนัส',a:10000,c:'โบนัส'}]:[]),
+    expense: Array.from({length:12},(_,i)=> i===4?[{n:'ค่าเช่า',a:8000,c:'🏠 ที่พัก'},{n:'ค่าไฟ',a:620,c:'🔌 สาธารณูปโภค'},{n:'ค่าอาหาร',a:3000,c:'🍜 อาหาร'},{n:'ค่าน้ำมัน',a:1500,c:'🚗 เดินทาง'},{n:'อินเทอร์เน็ต',a:599,c:'🔌 สาธารณูปโภค'}]:i===0?[{n:'ค่าเช่า',a:8000,c:'🏠 ที่พัก'},{n:'ค่าอาหาร',a:2800,c:'🍜 อาหาร'}]:[]),
+    saving: Array.from({length:12},(_,i)=> i===4?[{n:'ออมฉุกเฉิน',a:2000,g:90000},{n:'กองทุน LTF',a:1000,g:50000},{n:'ออมท่องเที่ยว',a:500,g:20000}]:i===0?[{n:'ออมฉุกเฉิน',a:2000,g:90000}]:[])
+  },
+  gf: {
+    name: 'ของแฟน', emoji: '👧', color: '#e8607a', bg: '#fff0f3',
+    income: Array.from({length:12},(_,i)=> i===4?[{n:'เงินเดือน',a:22000,c:'เงินเดือน'},{n:'ขายของออนไลน์',a:3000,c:'อื่นๆ'}]:i===0?[{n:'เงินเดือน',a:22000,c:'เงินเดือน'}]:[]),
+    expense: Array.from({length:12},(_,i)=> i===4?[{n:'ค่าเช่า',a:7000,c:'🏠 ที่พัก'},{n:'ค่าคอสเมติก',a:1200,c:'🛍️ ช้อปปิ้ง'},{n:'ค่าอาหาร',a:2800,c:'🍜 อาหาร'},{n:'ค่าโทรศัพท์',a:399,c:'🔌 สาธารณูปโภค'}]:i===0?[{n:'ค่าเช่า',a:7000,c:'🏠 ที่พัก'},{n:'ค่าอาหาร',a:2500,c:'🍜 อาหาร'}]:[]),
+    saving: Array.from({length:12},(_,i)=> i===4?[{n:'ออมฉุกเฉิน',a:1500,g:60000},{n:'ออมแต่งงาน',a:2000,g:200000}]:i===0?[{n:'ออมฉุกเฉิน',a:1500,g:60000}]:[])
+  }
+};
+
+function totals(p, m) {
+  const d = persons[p];
+  const inc = d.income[m].reduce((s,x)=>s+x.a,0);
+  const exp = d.expense[m].reduce((s,x)=>s+x.a,0);
+  const sav = d.saving[m].reduce((s,x)=>s+x.a,0);
+  return {inc, exp, sav, bal: inc-exp-sav};
+}
+
+function switchPerson(p) {
+  curPerson = p;
+  document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+  document.querySelector('.ptab-'+p).classList.add('active');
+  ['me','gf','both'].forEach(x=>document.getElementById('view-'+x).style.display=x===p?'':'none');
+  renderAll();
+}
+
+function changeMonth(dir) {
+  curMonth = (curMonth + dir + 12) % 12;
+  renderAll();
+}
+
+function renderHeaderStats() {
+  const p = curPerson === 'both' ? 'me' : curPerson;
+  const t = totals(p, curMonth);
+  document.getElementById('header-stats').innerHTML = `
+    <div class="hstat"><div class="hstat-label">รายรับ</div><div class="hstat-val" style="color:#5ee09a">+${fmt(t.inc)} ฿</div></div>
+    <div class="hstat"><div class="hstat-label">รายจ่าย</div><div class="hstat-val" style="color:#ff8080">-${fmt(t.exp)} ฿</div></div>
+    <div class="hstat"><div class="hstat-label">คงเหลือ</div><div class="hstat-val">${fmt(t.bal)} ฿</div></div>`;
+  document.getElementById('month-label').textContent = MONTHS[curMonth] + ' 2568';
+}
+
+function makePersonView(p) {
+  const person = persons[p];
+  const t = totals(p, curMonth);
+  const ratio = t.inc > 0 ? t.exp/t.inc : 0;
+  const accentColor = person.color;
+
+  // Summary cards
+  const cards = `<div class="summary-cards">
+    <div class="scard scard-income"><div class="scard-icon">💵</div><div class="scard-label">รายรับรวม</div><div class="scard-val">${fmt(t.inc)}</div><div class="scard-sub">฿ เดือน${MSHORT[curMonth]}</div></div>
+    <div class="scard scard-expense"><div class="scard-icon">💸</div><div class="scard-label">รายจ่ายรวม</div><div class="scard-val">${fmt(t.exp)}</div><div class="scard-sub">฿ เดือน${MSHORT[curMonth]}</div></div>
+    <div class="scard scard-save"><div class="scard-icon">🏦</div><div class="scard-label">เงินออม</div><div class="scard-val">${fmt(t.sav)}</div><div class="scard-sub">฿ เดือน${MSHORT[curMonth]}</div></div>
+    <div class="scard scard-balance${t.bal<0?' warning':''}"><div class="scard-icon">💳</div><div class="scard-label">คงเหลือสุทธิ</div><div class="scard-val">${fmt(t.bal)}</div><div class="scard-sub">${t.bal<0?'⚠ เกินงบ':'✓ สถานะดี'}</div></div>
+  </div>`;
+
+  // Alert
+  let alertHtml = '';
+  if (ratio > 0.85) alertHtml = `<div class="alert alert-danger">⚠️ รายจ่ายสูงถึง ${Math.round(ratio*100)}% ของรายรับ — ควรลดค่าใช้จ่ายด่วน!</div>`;
+  else if (ratio > 0.7) alertHtml = `<div class="alert alert-warn">💡 รายจ่ายอยู่ที่ ${Math.round(ratio*100)}% ของรายรับ — ระวังไว้หน่อยนะ</div>`;
+  else if (t.inc > 0) alertHtml = `<div class="alert alert-good">✅ สุขภาพการเงินดี — รายจ่ายอยู่ที่ ${Math.round(ratio*100)}% ของรายรับ เยี่ยมมาก!</div>`;
+
+  // Income & Expense panels
+  const incCats = ['เงินเดือน','ฟรีแลนซ์','โบนัส','ดอกเบี้ย/ปันผล','ค่าเช่า','อื่นๆ'];
+  const expCats = ['🏠 ที่พัก','🍜 อาหาร','🚗 เดินทาง','🔌 สาธารณูปโภค','🛍️ ช้อปปิ้ง','🎮 บันเทิง','💊 สุขภาพ','📦 อื่นๆ'];
+
+  const incRows = person.income[curMonth].length
+    ? person.income[curMonth].map((r,i)=>`<tr><td>${r.n}</td><td><span class="tag ti">${r.c}</span></td><td style="color:var(--green);font-weight:700">+${fmt(r.a)} ฿</td><td><button class="btn-del" onclick="delItem('${p}','income',${i})">✕</button></td></tr>`).join('')
+    : `<tr><td colspan="4" class="empty-msg">ยังไม่มีรายการ — กดเพิ่มด้านบน</td></tr>`;
+
+  const expRows = person.expense[curMonth].length
+    ? person.expense[curMonth].map((r,i)=>`<tr><td>${r.n}</td><td><span class="tag te">${r.c}</span></td><td style="color:var(--red);font-weight:700">-${fmt(r.a)} ฿</td><td><button class="btn-del" onclick="delItem('${p}','expense',${i})">✕</button></td></tr>`).join('')
+    : `<tr><td colspan="4" class="empty-msg">ยังไม่มีรายการ — กดเพิ่มด้านบน</td></tr>`;
+
+  // Savings
+  const savHtml = person.saving[curMonth].length
+    ? person.saving[curMonth].map((r,i)=>{
+        const total = persons[p].saving.reduce((s,m)=>s+(m.find(x=>x.n===r.n)||{a:0}).a,0);
+        const pct = r.g>0 ? Math.min(100,Math.round(total/r.g*100)) : 0;
+        return `<div class="goal-item">
+          <div class="goal-header">
+            <span class="goal-name">${r.n} <button class="btn-del" onclick="delItem('${p}','saving',${i})" style="font-size:11px">✕</button></span>
+            <span class="goal-amt">${fmt(r.a)} ฿/เดือน ${r.g?`<span style="color:var(--text2);font-weight:400">เป้า ${fmt(r.g)} ฿</span>`:''}</span>
+          </div>
+          ${r.g?`<div class="pbar"><div class="pbar-fill" style="width:${pct}%;background:${accentColor}"></div></div>
+          <div class="goal-sub">${pct}% ของเป้าหมาย (สะสมแล้ว ${fmt(total)} ฿)</div>`:'' }
+        </div>`;
+      }).join('')
+    : `<div class="empty-msg">ยังไม่มีแผนการออม</div>`;
+
+  // History
+  const hf = histFilter[p];
+  const allTx = [
+    ...person.income[curMonth].map((r,i)=>({type:'income',n:r.n,c:r.c,a:r.a,idx:i})),
+    ...person.expense[curMonth].map((r,i)=>({type:'expense',n:r.n,c:r.c,a:r.a,idx:i})),
+    ...person.saving[curMonth].map((r,i)=>({type:'save',n:r.n,c:'เงินออม',a:r.a,idx:i}))
+  ].filter(r=>hf==='all'||r.type===hf);
+
+  const histRows = allTx.length
+    ? allTx.map(r=>`<tr>
+        <td><span class="tag ${r.type==='income'?'ti':r.type==='expense'?'te':'ts'}">${r.c}</span></td>
+        <td style="font-weight:500">${r.n}</td>
+        <td style="font-weight:700;color:${r.type==='income'?'var(--green)':r.type==='save'?'var(--navy-light)':'var(--red)'};text-align:right">${r.type==='income'?'+':'−'}${fmt(r.a)} ฿</td>
+      </tr>`).join('')
+    : `<tr><td colspan="3" class="empty-msg">ไม่มีรายการ</td></tr>`;
+
+  const tabsHtml = ['all','income','expense','save'].map(f=>`<button class="htab${hf===f?' active':''}" onclick="setHistFilter('${p}','${f}',this)">${f==='all'?'ทั้งหมด':f==='income'?'รายรับ':f==='expense'?'รายจ่าย':'เงินออม'}</button>`).join('');
+
+  return `
+    ${cards}
+    ${alertHtml}
+    <div class="grid-2">
+      <div class="panel">
+        <div class="panel-title"><div class="dot" style="background:var(--green)"></div>รายรับ</div>
+        <div class="input-row">
+          <input type="text" id="${p}-iName" placeholder="ชื่อรายการ">
+          <input type="number" id="${p}-iAmt" placeholder="จำนวน (฿)">
+          <select id="${p}-iCat">${incCats.map(c=>`<option>${c}</option>`).join('')}</select>
+          <button class="btn-add btn-add-income" onclick="addItem('${p}','income')">+</button>
+        </div>
+        <table class="tbl">
+          <thead><tr><th>รายการ</th><th>ประเภท</th><th>จำนวน</th><th></th></tr></thead>
+          <tbody>${incRows}</tbody>
+        </table>
+      </div>
+      <div class="panel">
+        <div class="panel-title"><div class="dot" style="background:var(--red)"></div>รายจ่าย</div>
+        <div class="input-row">
+          <input type="text" id="${p}-eName" placeholder="ชื่อรายการ">
+          <input type="number" id="${p}-eAmt" placeholder="จำนวน (฿)">
+          <select id="${p}-eCat">${expCats.map(c=>`<option>${c}</option>`).join('')}</select>
+          <button class="btn-add btn-add-expense" onclick="addItem('${p}','expense')">+</button>
+        </div>
+        <table class="tbl">
+          <thead><tr><th>รายการ</th><th>หมวด</th><th>จำนวน</th><th></th></tr></thead>
+          <tbody>${expRows}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="panel">
+        <div class="panel-title"><div class="dot" style="background:${accentColor}"></div>สัดส่วนรายจ่าย</div>
+        <div class="donut-wrap">
+          <canvas id="${p}-donut" width="120" height="120"></canvas>
+          <div id="${p}-legend" style="flex:1"></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title"><div class="dot" style="background:var(--navy-light)"></div>เงินออม & เป้าหมาย</div>
+        <div class="input-row" style="grid-template-columns:1.5fr 0.9fr 0.9fr 36px">
+          <input type="text" id="${p}-sName" placeholder="ชื่อการออม">
+          <input type="number" id="${p}-sAmt" placeholder="ออม/เดือน">
+          <input type="number" id="${p}-sGoal" placeholder="เป้าหมาย">
+          <button class="btn-add btn-add-save" onclick="addItem('${p}','save')">+</button>
+        </div>
+        <div id="${p}-savings">${savHtml}</div>
+      </div>
+      <div class="panel">
+        <div class="panel-title"><div class="dot" style="background:var(--gold)"></div>แนวโน้มรายเดือน</div>
+        <canvas id="${p}-line" width="280" height="140"></canvas>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-bottom:12px">
+      <div class="panel-title"><div class="dot" style="background:var(--navy)"></div>ประวัติรายการ</div>
+      <div class="hist-tabs">${tabsHtml}</div>
+      <table class="tbl">
+        <thead><tr><th>ประเภท</th><th>รายการ</th><th style="text-align:right">จำนวน</th></tr></thead>
+        <tbody>${histRows}</tbody>
+      </table>
+    </div>`;
+}
+
+function makeBothView() {
+  const tMe = totals('me', curMonth);
+  const tGf = totals('gf', curMonth);
+  const totalInc = tMe.inc + tGf.inc;
+  const totalExp = tMe.exp + tGf.exp;
+  const totalSav = tMe.sav + tGf.sav;
+  const totalBal = tMe.bal + tGf.bal;
+
+  return `
+    <div class="summary-cards">
+      <div class="scard scard-income"><div class="scard-icon">💵</div><div class="scard-label">รายรับรวม (คู่)</div><div class="scard-val">${fmt(totalInc)}</div><div class="scard-sub">฿ รวมกัน</div></div>
+      <div class="scard scard-expense"><div class="scard-icon">💸</div><div class="scard-label">รายจ่ายรวม (คู่)</div><div class="scard-val">${fmt(totalExp)}</div><div class="scard-sub">฿ รวมกัน</div></div>
+      <div class="scard scard-save"><div class="scard-icon">🏦</div><div class="scard-label">ออมรวม (คู่)</div><div class="scard-val">${fmt(totalSav)}</div><div class="scard-sub">฿ รวมกัน</div></div>
+      <div class="scard scard-balance${totalBal<0?' warning':''}"><div class="scard-icon">💑</div><div class="scard-label">คงเหลือรวม</div><div class="scard-val">${fmt(totalBal)}</div><div class="scard-sub">${totalBal<0?'⚠ เกินงบ':'✓ ดีมาก'}</div></div>
+    </div>
+
+    <div class="combined-card">
+      <div class="combined-title">📊 เปรียบเทียบสถานะการเงิน — ${MONTHS[curMonth]} 2568</div>
+      <div class="compare-row">
+        <div class="compare-col me-col">
+          <div class="compare-name" style="color:#3d5a99">👦 ${persons.me.name}</div>
+          <div class="compare-stat"><span>รายรับ</span><span style="color:var(--green)">+${fmt(tMe.inc)} ฿</span></div>
+          <div class="compare-stat"><span>รายจ่าย</span><span style="color:var(--red)">-${fmt(tMe.exp)} ฿</span></div>
+          <div class="compare-stat"><span>เงินออม</span><span style="color:var(--navy-light)">+${fmt(tMe.sav)} ฿</span></div>
+          <div class="compare-stat" style="border-top:1px solid var(--border);padding-top:6px;margin-top:4px"><span>คงเหลือ</span><span style="color:${tMe.bal<0?'var(--red)':'var(--green)'}">${fmt(tMe.bal)} ฿</span></div>
+        </div>
+        <div class="compare-col gf-col">
+          <div class="compare-name" style="color:#e8607a">👧 ${persons.gf.name}</div>
+          <div class="compare-stat"><span>รายรับ</span><span style="color:var(--green)">+${fmt(tGf.inc)} ฿</span></div>
+          <div class="compare-stat"><span>รายจ่าย</span><span style="color:var(--red)">-${fmt(tGf.exp)} ฿</span></div>
+          <div class="compare-stat"><span>เงินออม</span><span style="color:var(--navy-light)">+${fmt(tGf.sav)} ฿</span></div>
+          <div class="compare-stat" style="border-top:1px solid var(--border);padding-top:6px;margin-top:4px"><span>คงเหลือ</span><span style="color:${tGf.bal<0?'var(--red)':'var(--green)'}">${fmt(tGf.bal)} ฿</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="panel">
+        <div class="panel-title"><div class="dot" style="background:#3d5a99"></div>รายจ่าย 👦 ของฉัน</div>
+        <canvas id="both-bar-me" width="300" height="160"></canvas>
+      </div>
+      <div class="panel">
+        <div class="panel-title"><div class="dot" style="background:#e8607a"></div>รายจ่าย 👧 ของแฟน</div>
+        <canvas id="both-bar-gf" width="300" height="160"></canvas>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><div class="dot" style="background:var(--gold)"></div>เป้าหมายการออมรวม</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div>
+          <div style="font-size:11px;font-weight:700;color:#3d5a99;margin-bottom:8px;text-transform:uppercase">👦 ของฉัน</div>
+          ${persons.me.saving[curMonth].map(r=>{
+            const tot=persons.me.saving.reduce((s,m)=>s+(m.find(x=>x.n===r.n)||{a:0}).a,0);
+            const pct=r.g>0?Math.min(100,Math.round(tot/r.g*100)):0;
+            return `<div class="goal-item"><div class="goal-header"><span class="goal-name">${r.n}</span><span class="goal-amt">${fmt(r.a)} ฿/เดือน</span></div>${r.g?`<div class="pbar"><div class="pbar-fill" style="width:${pct}%;background:#3d5a99"></div></div><div class="goal-sub">${pct}% — สะสม ${fmt(tot)} / ${fmt(r.g)} ฿</div>`:''}</div>`;
+          }).join('') || '<div class="empty-msg">ไม่มีรายการออม</div>'}
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:700;color:#e8607a;margin-bottom:8px;text-transform:uppercase">👧 ของแฟน</div>
+          ${persons.gf.saving[curMonth].map(r=>{
+            const tot=persons.gf.saving.reduce((s,m)=>s+(m.find(x=>x.n===r.n)||{a:0}).a,0);
+            const pct=r.g>0?Math.min(100,Math.round(tot/r.g*100)):0;
+            return `<div class="goal-item"><div class="goal-header"><span class="goal-name">${r.n}</span><span class="goal-amt">${fmt(r.a)} ฿/เดือน</span></div>${r.g?`<div class="pbar"><div class="pbar-fill" style="width:${pct}%;background:#e8607a"></div></div><div class="goal-sub">${pct}% — สะสม ${fmt(tot)} / ${fmt(r.g)} ฿</div>`:''}</div>`;
+          }).join('') || '<div class="empty-msg">ไม่มีรายการออม</div>'}
+        </div>
+      </div>
+    </div>`;
+}
+
+function addItem(p, type) {
+  if (type === 'income') {
+    const n = document.getElementById(`${p}-iName`).value.trim();
+    const a = parseFloat(document.getElementById(`${p}-iAmt`).value);
+    const c = document.getElementById(`${p}-iCat`).value;
+    if (!n || isNaN(a) || a <= 0) return;
+    persons[p].income[curMonth].push({n,a,c});
+    document.getElementById(`${p}-iName`).value = '';
+    document.getElementById(`${p}-iAmt`).value = '';
+  } else if (type === 'expense') {
+    const n = document.getElementById(`${p}-eName`).value.trim();
+    const a = parseFloat(document.getElementById(`${p}-eAmt`).value);
+    const c = document.getElementById(`${p}-eCat`).value;
+    if (!n || isNaN(a) || a <= 0) return;
+    persons[p].expense[curMonth].push({n,a,c});
+    document.getElementById(`${p}-eName`).value = '';
+    document.getElementById(`${p}-eAmt`).value = '';
+  } else {
+    const n = document.getElementById(`${p}-sName`).value.trim();
+    const a = parseFloat(document.getElementById(`${p}-sAmt`).value);
+    const g = parseFloat(document.getElementById(`${p}-sGoal`).value) || 0;
+    if (!n || isNaN(a) || a <= 0) return;
+    persons[p].saving[curMonth].push({n,a,g});
+    document.getElementById(`${p}-sName`).value = '';
+    document.getElementById(`${p}-sAmt`).value = '';
+    document.getElementById(`${p}-sGoal`).value = '';
+  }
+  renderAll();
+}
+
+function delItem(p, type, idx) {
+  persons[p][type][curMonth].splice(idx, 1);
+  renderAll();
+}
+
+function setHistFilter(p, f, btn) {
+  histFilter[p] = f;
+  renderAll();
+}
+
+function drawDonut(id, expenses, color) {
+  const canvas = document.getElementById(id);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, 120, 120);
+  const catMap = {};
+  expenses.forEach(e => { catMap[e.c] = (catMap[e.c]||0) + e.a; });
+  const cats = Object.keys(catMap);
+  const vals = cats.map(c=>catMap[c]);
+  const total = vals.reduce((a,b)=>a+b,0);
+  const legend = document.getElementById(id.replace('-donut','-legend'));
+  if (!total) {
+    ctx.strokeStyle = '#e8ecf5'; ctx.lineWidth = 16;
+    ctx.beginPath(); ctx.arc(60,60,44,0,Math.PI*2); ctx.stroke();
+    ctx.fillStyle = '#aaa'; ctx.font = '10px Sarabun'; ctx.textAlign = 'center';
+    ctx.fillText('ไม่มีข้อมูล', 60, 64);
+    if (legend) legend.innerHTML = '';
+    return;
+  }
+  let angle = -Math.PI/2;
+  vals.forEach((v,i)=>{
+    const slice = (v/total)*Math.PI*2;
+    ctx.beginPath(); ctx.moveTo(60,60);
+    ctx.arc(60,60,52,angle,angle+slice); ctx.closePath();
+    ctx.fillStyle = EXP_COLORS[i%EXP_COLORS.length]; ctx.fill();
+    angle += slice;
+  });
+  ctx.beginPath(); ctx.arc(60,60,32,0,Math.PI*2);
+  ctx.fillStyle = '#fff'; ctx.fill();
+  ctx.fillStyle = '#1a2744'; ctx.font = '700 12px Prompt'; ctx.textAlign = 'center';
+  ctx.fillText(fmt(total), 60, 58);
+  ctx.fillStyle = '#888'; ctx.font = '9px Sarabun'; ctx.fillText('฿ รวม', 60, 72);
+  if (legend) legend.innerHTML = cats.map((c,i)=>`<div class="legend-item"><div class="ldot" style="background:${EXP_COLORS[i%EXP_COLORS.length]}"></div><span style="color:#6b7a99;font-size:10px;flex:1">${c.replace(/^[^\s]+\s/,'')}</span><span class="lval">${fmt(vals[i])}</span></div>`).join('');
+}
+
+function drawBar(id, expenses, color) {
+  const canvas = document.getElementById(id);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  const catMap = {};
+  expenses.forEach(e=>{ catMap[e.c]=(catMap[e.c]||0)+e.a; });
+  const cats = Object.keys(catMap);
+  const vals = cats.map(c=>catMap[c]);
+  if (!vals.length) { ctx.fillStyle='#ccc'; ctx.font='11px Sarabun'; ctx.textAlign='center'; ctx.fillText('ไม่มีข้อมูล',W/2,H/2); return; }
+  const maxV = Math.max(...vals,1);
+  const pad = {l:10,r:10,t:18,b:40};
+  const gW = W-pad.l-pad.r;
+  const gH = H-pad.t-pad.b;
+  const bw = Math.min(36, (gW/cats.length)*0.55);
+  const gap = gW/cats.length;
+  cats.forEach((c,i)=>{
+    const x = pad.l + i*gap + (gap-bw)/2;
+    const v = vals[i];
+    const barH = Math.round((v/maxV)*gH);
+    const y = pad.t + gH - barH;
+    ctx.fillStyle = color+'22'; ctx.fillRect(x, pad.t, bw, gH);
+    ctx.fillStyle = color; ctx.fillRect(x, y, bw, barH);
+    ctx.fillStyle = '#1a2744'; ctx.font = '700 9px Sarabun'; ctx.textAlign = 'center';
+    ctx.fillText(fmt(v), x+bw/2, y-3);
+    const label = c.replace(/^[^\s]+\s/,'');
+    ctx.fillStyle = '#6b7a99'; ctx.font = '9px Sarabun';
+    ctx.fillText(label.length>5?label.slice(0,5)+'..':label, x+bw/2, H-4);
+  });
+}
+
+function drawLine(id, p) {
+  const canvas = document.getElementById(id);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  const end = curMonth;
+  const start = Math.max(0, end-4);
+  const incData = [], expData = [], mLabels = [];
+  for (let i=start; i<=end; i++) {
+    const t = totals(p,i);
+    incData.push(t.inc); expData.push(t.exp); mLabels.push(MSHORT[i]);
+  }
+  const maxV = Math.max(...incData,...expData,1);
+  const pad = {l:36,r:10,t:14,b:22};
+  const gW = W-pad.l-pad.r, gH = H-pad.t-pad.b;
+  ctx.strokeStyle = '#e8ecf5'; ctx.lineWidth = 0.5;
+  [0.25,0.5,0.75,1].forEach(f=>{
+    const y = pad.t+gH*(1-f);
+    ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(W-pad.r,y); ctx.stroke();
+    ctx.fillStyle='#aaa'; ctx.font='8px Sarabun'; ctx.textAlign='right';
+    ctx.fillText(fmt(maxV*f/1000)+'k', pad.l-3, y+3);
+  });
+  const drawL = (data, color) => {
+    if (data.length < 1) return;
+    ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 2.5; ctx.lineJoin = 'round';
+    data.forEach((v,i)=>{ const x=pad.l+i*(gW/Math.max(data.length-1,1)); const y=pad.t+gH*(1-v/maxV); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
+    ctx.stroke();
+    ctx.fillStyle=color+'33';
+    ctx.beginPath();
+    data.forEach((v,i)=>{ const x=pad.l+i*(gW/Math.max(data.length-1,1)); const y=pad.t+gH*(1-v/maxV); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
+    ctx.lineTo(pad.l+(data.length-1)*(gW/Math.max(data.length-1,1)), pad.t+gH);
+    ctx.lineTo(pad.l, pad.t+gH); ctx.closePath(); ctx.fill();
+    data.forEach((v,i)=>{ const x=pad.l+i*(gW/Math.max(data.length-1,1)); const y=pad.t+gH*(1-v/maxV); ctx.beginPath(); ctx.arc(x,y,3,0,Math.PI*2); ctx.fillStyle=color; ctx.fill(); });
+  };
+  drawL(incData,'#1a8c5e'); drawL(expData,'#c0392b');
+  mLabels.forEach((m,i)=>{ const x=pad.l+i*(gW/Math.max(mLabels.length-1,1)); ctx.fillStyle='#aaa'; ctx.font='9px Sarabun'; ctx.textAlign='center'; ctx.fillText(m,x,H-4); });
+  ctx.fillStyle='#1a8c5e'; ctx.fillRect(W-80,4,7,7); ctx.fillStyle='#888'; ctx.font='9px Sarabun'; ctx.textAlign='left'; ctx.fillText('รายรับ',W-70,12);
+  ctx.fillStyle='#c0392b'; ctx.fillRect(W-80,16,7,7); ctx.fillText('รายจ่าย',W-70,24);
+}
+
+function renderCharts() {
+  if (curPerson === 'me' || curPerson === 'gf') {
+    const p = curPerson;
+    setTimeout(()=>{
+      drawDonut(`${p}-donut`, persons[p].expense[curMonth], persons[p].color);
+      drawLine(`${p}-line`, p);
+    }, 50);
+  } else {
+    setTimeout(()=>{
+      drawBar('both-bar-me', persons.me.expense[curMonth], '#3d5a99');
+      drawBar('both-bar-gf', persons.gf.expense[curMonth], '#e8607a');
+    }, 50);
+  }
+}
+
+function renderAll() {
+  renderHeaderStats();
+  if (curPerson === 'me') {
+    document.getElementById('view-me').innerHTML = makePersonView('me');
+  } else if (curPerson === 'gf') {
+    document.getElementById('view-gf').innerHTML = makePersonView('gf');
+  } else {
+    document.getElementById('view-both').innerHTML = makeBothView();
+  }
+  renderCharts();
+}
+
+renderAll();
+</script>
+</body>
+</html>
